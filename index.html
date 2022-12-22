@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="alertDiv">
+
+    </div>
+
+    <h1>GAME</h1>
+
+    <p id="nameOfPlayer">Seu nome: </p>
+    <p id="moneyOfPlayer">$ 0</p>
+    <p id="diamondsOfPlayer">Grana suja 0</p>
+    <p id="generation">Geração de Dinheiro</p>
+    <p id="upgrades">Upgrades</p>
+
+    <div id="generationList">
+        <ul>
+            <li><button onclick="juice()" id="juice_of_orange">Suco de laranja +$ 1.00</button></li>
+            <li><button id="perfume_of_magazine">Perfume de Revista</button></li>
+            <li><button id="computer_maintenance">Manutenção de Computadores</button></li>
+            <li><button id="drop_Shipping">Drop Shipping</button></li>
+            <li><button id="Bitcoin">Bitcoin</button></li>
+            <li><button id="loan_sharking">Agiotagem</button></li>
+        </ul>
+    </div>
+
+    <div id="upgradesList">
+        <ul>
+            <li><button onclick="juiceMultiply()" id="juiceMult">Laranjão -$ 10.00</button></li>
+            <li><button onclick="sellerJuice()" id="sellerJui">Vendedor de suco</button></li>
+            <li><button onclick="teste()" id="technician">Técnico Ti</button></li>
+            <li><button id="website">Site de vendas</button></li>
+            <li><button id="queryBit">Mineradora Bitcoin</button></li>
+            <li><button id="threaten">Cobrar</button></li>
+        </ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

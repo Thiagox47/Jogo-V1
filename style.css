@@ -1,0 +1,90 @@
+body {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 20% 10% 10% 60%;
+}
+
+#alertDiv {
+    width: auto;
+    height: auto;
+    color: black;
+    position: absolute;
+}
+
+h1 {
+    text-align: center;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+#nameOfPlayer {
+    margin-top: 0;
+    text-align: center;
+    grid-row-start: 1;
+    grid-row-start: 2;
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+li {
+    list-style-type: none;
+}
+
+#buttons {
+    margin: 10px;
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+button {
+    margin-top: 10%;
+}
+
+#generationList {
+    display: flex;
+    align-items: center;
+    margin-top: 5%;
+    margin-left: 5%;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-start: 4;
+}
+
+#upgradesList {
+    display: flex;
+    align-items: center;
+    margin-top: 5%;
+    margin-left: 5%;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-start: 4;
+}
+
+#moneyOfPlayer {
+    margin-top: 0;
+    text-align: center;
+    grid-row-start: 1;
+    grid-row-start: 2;
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+#diamondsOfPlayer {
+    margin-top: 0;
+    text-align: center;
+    margin-left: 300px;
+    grid-row-start: 1;
+    grid-row-start: 2;
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+#upgrades {
+    text-align: center;
+}
+
+#generation {
+    text-align: center;
+}
