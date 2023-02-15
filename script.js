@@ -4,10 +4,6 @@ const dirtyMoney = "Grana suja";
 let result = 0;
 let multiply = 2.5;
 
-// Variavel da div de alerta
-let alertPage = document.getElementById("alertDiv")
-alertPage.style.display = "none";
-
 //Let's para valor inicial de Juice, multiplicador de sucos, valor dos vendedores de suco e multiplicador.
 let juices = 1;
 let juiceMultiplys = 1;
@@ -57,6 +53,26 @@ function buttomEnable() {
 
 buttomEnable()
 
+// Função do popup
+function popups(texto){
+    var popup = document.createElement("div");
+    popup.style.backgroundColor = "lightgray";
+    popup.style.padding = "20px";
+    popup.style.position = "fixed";
+    popup.style.bottom = "20px";
+    popup.style.right = "20px";
+    popup.innerHTML = texto;
+    
+    // adiciona o elemento ao documento
+    document.body.appendChild(popup);
+    
+    // agenda a remoção do popup após 5 segundos
+    setTimeout(function() {
+      popup.style.display = "none";
+    }, 1000);
+    }
+
+
 //Função para vender suco
 function juice() {
     //valor de juice sempre 1, porém podendo ser multiplicado.
@@ -81,13 +97,12 @@ function juiceMultiply() {
         showMoney()
         valueJuiceMult.innerHTML = `Caixa de laranjas -$ ${valueMultiplyJuices.toFixed(2)}`;
         //aparece a informação do upgrade e adiciona um timer
-        alertPage.innerHTML = "Upgrade de multiplicação habilitado!"
-        alertPage.style.display = 'block';
+        popups("Upgrade de multiplicação habilitado!")
+        
         mesage_div_Clock()
     } else {
         //aparece a informação de dinheiro insuficiente e adiciona um timer
-        alertPage.style.display = 'block';
-        alertPage.innerHTML = "Você não tem saldo suficiente para isso!"
+        popups("Você não tem saldo suficiente para isso!")
         mesage_div_Clock()
     }
     //mostrar no console o valor do multiplicador.
@@ -104,13 +119,11 @@ function sellerJuice() {
         showMoney()
         valueSellerJuices = multiplyGenerationUpgrade(valueSellerJuices)
         valueSellerJui.innerHTML = `Chamar outro vendedor de sucos -$ ${valueSellerJuices}`
-        alertPage.innerHTML = "Vendedor de sucos habilitado!"
-        alertPage.style.display = 'block';
+        popups("Vendedor de sucos habilitado!")
         mesage_div_Clock()
     } else {
         //aparece a informação de dinheiro insuficiente e adiciona um timer
-        alertPage.style.display = 'block';
-        alertPage.innerHTML = "Você não tem saldo suficiente para isso!"
+        popups("Você não tem saldo suficiente para isso!")
         mesage_div_Clock()
     }
     console.log(valueSellerJuices)
@@ -149,13 +162,11 @@ function more_flavors() {
         showMoney()
 
         //aparece a informação do upgrade e adiciona um timer
-        alertPage.innerHTML = "Upgrade de multiplicação habilitado!"
-        alertPage.style.display = 'block';
+        popups("Upgrade de multiplicação habilitado!")
         mesage_div_Clock()
     } else {
         //aparece a informação de dinheiro insuficiente e adiciona um timer
-        alertPage.style.display = 'block';
-        alertPage.innerHTML = "Você não tem saldo suficiente para isso!"
+        popups("Você não tem saldo suficiente para isso!")
         mesage_div_Clock()
     }
     activate = true;
@@ -165,19 +176,12 @@ function more_flavors() {
 
 //Funções para facilitar criação de multiplicadores e geradores
 
-// Função para o tempo do alert div
-function mesage_div_Clock() {
-    let clock_mesage = setTimeout(() => {
-        alertPage.style.display = 'none';
-        clearTimeout(clock_mesage)
-    }, 3000);
-}
-
 //mostrar valor
 function showMoney() {
     let text = document.getElementById("moneyOfPlayer");
     text.innerHTML = `${dolar} ${result.toFixed(2)}`;
 }
+
 //Operações de soma e subtração com o valor do gerador
 function resultOperations(generationValues, operation) {
     switch (operation) {
@@ -191,10 +195,12 @@ function resultOperations(generationValues, operation) {
             break
     }
 }
+
 //Multiplicador do valor do upgrade dos geradores
 function multiplyGenerationUpgrade(generationUpgradeValues) {
     return generationUpgradeValues *= multiply;
 }
+
 //Aplicar a multiplicação no gerador
 function aplyMultiply(generation, multiplye) {
     return generation *= multiplye;

@@ -9,19 +9,16 @@
 
 <body>
 
-    <div id="alertDiv">
-
-    </div>
-
     <h1>GAME</h1>
 
-    <p id="nameOfPlayer">Seu nome: </p>
-    <p id="moneyOfPlayer">$ 0</p>
-    <p id="diamondsOfPlayer">Grana suja 0</p>
-    <p id="generation">Geração de Dinheiro</p>
-    <p id="upgrades">Upgrades</p>
+    <div id="playerInfo">
+        <p id="nameOfPlayer">Seu nome: </p>
+        <p id="moneyOfPlayer">$ 0</p>
+        <p id="diamondsOfPlayer">Grana suja 0</p>
+    </div>
 
-    <div id="generationList">
+    <div id="generation">
+        <h2>Geração de Dinheiro</h2>
         <ul>
             <li><button onclick="juice()" id="juice_of_orange">Suco de laranja $ 1.00</button></li>
             <li><button onclick="popsicle()" id="popsicle">Picolé $ 3.50</button></li>
@@ -32,7 +29,8 @@
         </ul>
     </div>
 
-    <div id="upgradesList">
+    <div id="upgrades">
+        <h2>Upgrades</h2>
         <ul>
             <li><button onclick="juiceMultiply()" id="juiceMult">Caixa de laranjas -$ 10.00</button></li>
             <li><button onclick="sellerJuice()" id="sellerJui">Contratar vendedor de Suco -$ 1500.00</button></li>
@@ -43,6 +41,7 @@
             <li><button id="threaten">Cobrar</button></li>
         </ul>
     </div>
+
     <script src="script.js"></script>
 </body>
 

@@ -1,90 +1,72 @@
-body {
+body { /*Alterações do Body*/
     display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 20% 10% 10% 60%;
+    grid-template-columns: repeat(2, 1fr); /* Define três colunas com tamanho igual */
+    grid-template-rows: 20% 10% 10% 60% ; 
 }
 
-#alertDiv {
-    width: auto;
-    height: auto;
-    color: black;
-    position: absolute;
+#upgrades button { /*Modificações nos botões de upgrade*/
+    background-color: rgb(250, 217, 73);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+  }
+  
+#generation button { /*Modificações nos botões de geração de dinheiro*/
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: box-shadow 0.3s;
 }
 
-h1 {
+button:hover { /*Transição da sombra*/
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19);
+}
+
+li { /*Remoção dos pontos da lista*/
+    list-style: none;
+  }
+
+h1{ /*Localização do h1*/
     text-align: center;
     grid-column-start: 1;
     grid-column-end: 3;
-}
-
-#nameOfPlayer {
-    margin-top: 0;
-    text-align: center;
     grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+#playerInfo { /*Localização das informações do jogador no grid*/
+    grid-column-start: 1;
+    grid-column-end: 3;
     grid-row-start: 2;
-    grid-column-start: 1;
-    grid-column-end: 2;
+    grid-row-end: 3;
 }
 
-li {
-    list-style-type: none;
+#playerInfo p{ /*Removendo a quebra de linha dos paragrafos e dando um espaço entre eles*/
+    display: inline;
+    margin-right: 25%;
 }
 
-#buttons {
-    margin: 10px;
-    grid-column-start: 1;
-    grid-column-end: 2;
-}
-
-button {
-    margin-top: 10%;
-}
-
-#generationList {
-    display: flex;
-    align-items: center;
-    margin-top: 5%;
-    margin-left: 5%;
+#generation h2{ /*Localização do h2 da geração no grid*/
+    text-align: center;
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 3;
-    grid-row-start: 4;
+    grid-row-end: 4;
 }
 
-#upgradesList {
-    display: flex;
-    align-items: center;
-    margin-top: 5%;
-    margin-left: 5%;
+#upgrades h2{ /*Localização do h2 dos upgrades no grid*/
+    text-align: center;
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 3;
-    grid-row-start: 4;
+    grid-row-end: 4;
 }
-
-#moneyOfPlayer {
-    margin-top: 0;
-    text-align: center;
-    grid-row-start: 1;
-    grid-row-start: 2;
-    grid-column-start: 2;
-    grid-column-end: 3;
-}
-
-#diamondsOfPlayer {
-    margin-top: 0;
-    text-align: center;
-    margin-left: 300px;
-    grid-row-start: 1;
-    grid-row-start: 2;
-    grid-column-start: 2;
-    grid-column-end: 3;
-}
-
-#upgrades {
-    text-align: center;
-}
-
-#generation {
-    text-align: center;
-}
+/*Demais objetos pegaram sua localização automaticamente*/
