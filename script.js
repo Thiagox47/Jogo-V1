@@ -15,8 +15,7 @@ let valueMuliplyPopsicles = 35;
 
 //Dom de todos os botões de geradores invisiveis e variaveis
 let juice_of_orange = document.getElementById("juice_of_orange")
-let popsicle_btn = document.getElementById("popsicle")
-popsicle_btn.style.display = 'none';
+let popsicle_btn = document.getElementById("popsicle").style.display = 'none';
 document.getElementById("computer_maintenance").style.display = 'none';
 document.getElementById("drop_Shipping").style.display = 'none';
 document.getElementById("Bitcoin").style.display = 'none';
@@ -98,12 +97,9 @@ function juiceMultiply() {
         valueJuiceMult.innerHTML = `Caixa de laranjas -$ ${valueMultiplyJuices.toFixed(2)}`;
         //aparece a informação do upgrade e adiciona um timer
         popups("Upgrade de multiplicação habilitado!")
-        
-        mesage_div_Clock()
     } else {
         //aparece a informação de dinheiro insuficiente e adiciona um timer
         popups("Você não tem saldo suficiente para isso!")
-        mesage_div_Clock()
     }
     //mostrar no console o valor do multiplicador.
     console.log(juiceMultiplys);
@@ -120,11 +116,9 @@ function sellerJuice() {
         valueSellerJuices = multiplyGenerationUpgrade(valueSellerJuices)
         valueSellerJui.innerHTML = `Chamar outro vendedor de sucos -$ ${valueSellerJuices}`
         popups("Vendedor de sucos habilitado!")
-        mesage_div_Clock()
     } else {
         //aparece a informação de dinheiro insuficiente e adiciona um timer
         popups("Você não tem saldo suficiente para isso!")
-        mesage_div_Clock()
     }
     console.log(valueSellerJuices)
 }
@@ -142,9 +136,9 @@ function popsicle() {
     buttomEnable()
     popsicle_btn.innerHTML = `Picolé $ ${popsicles.toFixed(2)}`
 }
-let activate = false;
 
 function more_flavors() {
+    let activate = false;
 
     if (result >= valueMuliplyPopsicles & activate == false) {
         document.getElementById("popsicle").style.display = 'block';
@@ -153,36 +147,35 @@ function more_flavors() {
         valuePopsicles.innerHTML = `Mais sabores de Picolés -$ ${valueMuliplyPopsicles.toFixed(2)}`;
         showMoney()
     }
-    console.log(activate)
+
     if (result >= valueMuliplyPopsicles & activate == true) {
         popsicleMultiplys += 3;
         resultOperations(valueMuliplyPopsicles, "-")
         valueMuliplyPopsicles = multiplyGenerationUpgrade(valueMuliplyPopsicles)
         valuePopsicles.innerHTML = `Mais sabores de Picolés -$ ${valueMuliplyPopsicles.toFixed(2)}`;
+        popsicle_btn.innerHTML = `Picolé $ ${popsicles.toFixed(2)}`
         showMoney()
 
         //aparece a informação do upgrade e adiciona um timer
         popups("Upgrade de multiplicação habilitado!")
-        mesage_div_Clock()
     } else {
         //aparece a informação de dinheiro insuficiente e adiciona um timer
         popups("Você não tem saldo suficiente para isso!")
-        mesage_div_Clock()
     }
     activate = true;
     //mostrar no console o valor do multiplicador.
     console.log(popsicleMultiplys);
 }
 
-//Funções para facilitar criação de multiplicadores e geradores
+//Funções que facilitam operações nos mutiplicadores e geradores
 
-//mostrar valor
+//mostrar valor final
 function showMoney() {
     let text = document.getElementById("moneyOfPlayer");
     text.innerHTML = `${dolar} ${result.toFixed(2)}`;
 }
 
-//Operações de soma e subtração com o valor do gerador
+//Operações de soma e subtração no resultado final 
 function resultOperations(generationValues, operation) {
     switch (operation) {
         case '-':
@@ -196,12 +189,12 @@ function resultOperations(generationValues, operation) {
     }
 }
 
-//Multiplicador do valor do upgrade dos geradores
+//Multiplicador o valor dos upgrades desejados
 function multiplyGenerationUpgrade(generationUpgradeValues) {
     return generationUpgradeValues *= multiply;
 }
 
-//Aplicar a multiplicação no gerador
+//Aplica a multiplicação no gerador de dinheiro desejado
 function aplyMultiply(generation, multiplye) {
     return generation *= multiplye;
 }

@@ -11,6 +11,7 @@ body { /*Alterações do Body*/
     padding: 10px 20px;
     font-size: 12px;
     border-radius: 5px;
+    margin-bottom: 10px;
     cursor: pointer;
     transition: box-shadow 0.3s;
   }
@@ -22,6 +23,7 @@ body { /*Alterações do Body*/
     padding: 10px 20px;
     font-size: 12px;
     border-radius: 5px;
+    margin-bottom: 10px;
     cursor: pointer;
     transition: box-shadow 0.3s;
 }
