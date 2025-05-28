@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idle Game com Flask e Tailwind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Animação sutil para popups (CSS padrão, não usa @apply) */
+        .popup-enter {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .popup-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 300ms, transform 300ms;
+        }
+        .popup-leave-active {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 300ms, transform 300ms;
+        }
+    </style>
+</head>
+<body class="font-['Inter'] bg-slate-100 text-gray-800 min-h-screen flex flex-col items-center pt-6 pb-12 px-4">
+
+    <div id="playerNameInputContainer" class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md text-center mb-8">
+        <h2 class="text-2xl font-bold mb-6 text-gray-700">Bem-vindo ao Idle Game!</h2>
+        <label for="playerNameInput" class="block text-sm font-medium text-gray-600 mb-2">Qual o seu nome?</label>
+        <input type="text" id="playerNameInput" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-sky-500 focus:border-sky-500 mb-4" placeholder="Seu nome aqui...">
+        <button id="submitPlayerNameButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-sky-500 hover:bg-sky-600 focus:ring-sky-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none">Começar a Jogar</button>
+    </div>
+
+    <div id="gameContainer" class="w-full max-w-5xl mx-auto hidden">
+        <header class="mb-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-orange-500">
+                IDLE GAME FLASK
+            </h1>
+        </header>
+
+        <div id="playerInfo" class="bg-white p-6 rounded-xl shadow-lg mb-8 flex flex-col sm:flex-row justify-around items-center text-lg space-y-2 sm:space-y-0">
+            <p id="nameOfPlayerDisplay" class="font-semibold">Nome: <span class="text-sky-600"></span></p>
+            <p id="moneyOfPlayerDisplay" class="font-bold text-emerald-600 text-xl">$ 0.00</p>
+            <p id="diamondsOfPlayerDisplay" class="font-semibold text-indigo-500">Grana Suja: 0</p>
+        </div>
+
+        <div id="gameContent" class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            <div id="generation" class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-semibold mb-6 text-center text-gray-700">Geração de Dinheiro</h2>
+                <ul class="space-y-3">
+                    <li><button id="sellJuiceButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none">Suco de Laranja $1.00</button></li>
+                    <li><button id="sellPopsicleButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none hidden">Picolé $3.50</button></li>
+                    <li><button id="computerMaintenanceButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none hidden">Manutenção de Computadores</button></li>
+                    <li><button id="dropShippingButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none hidden">Drop Shipping</button></li>
+                    <li><button id="bitcoinButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none hidden">Bitcoin</button></li>
+                    <li><button id="loanSharkingButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none hidden">Agiotagem</button></li>
+                </ul>
+            </div>
+
+            <div id="upgrades" class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-semibold mb-6 text-center text-gray-700">Upgrades</h2>
+                <ul class="space-y-3">
+                    <li><button id="buyJuiceMultiplierButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-amber-500 hover:bg-amber-600 focus:ring-amber-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none">Caixa de Laranjas -$10.00</button></li>
+                    <li><button id="buyJuiceSellerButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-amber-500 hover:bg-amber-600 focus:ring-amber-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none">Contratar Vendedor de Suco -$1500.00</button></li>
+                    <li><button id="unlockOrUpgradePopsicleButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-amber-500 hover:bg-amber-600 focus:ring-amber-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none">Desbloquear Picolés -$35.00</button></li>
+                    <li><button id="technicianButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-amber-500 hover:bg-amber-600 focus:ring-amber-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none hidden">Técnico TI</button></li>
+                    <li><button id="websiteButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-amber-500 hover:bg-amber-600 focus:ring-amber-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none hidden">Site de Vendas</button></li>
+                    <li><button id="queryBitButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-amber-500 hover:bg-amber-600 focus:ring-amber-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none hidden">Mineradora Bitcoin</button></li>
+                    <li><button id="threatenButton" class="w-full px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-amber-500 hover:bg-amber-600 focus:ring-amber-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none hidden">Cobrar</button></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="mt-8 text-center">
+            <button id="resetGameButton" class="px-4 py-2.5 rounded-lg shadow-md font-semibold text-white transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-opacity-75 bg-red-500 hover:bg-red-600 focus:ring-red-400 disabled:bg-gray-400 disabled:hover:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none">Reiniciar Jogo</button>
+        </div>
+    </div>
+
+    <div id="popupContainer" class="fixed bottom-5 right-5 space-y-2 z-50 w-full max-w-xs sm:max-w-sm">
+    </div>
+
+    <script>
+        const initialClientGameState = JSON.parse('{{ initial_game_state | tojson | safe }}');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const playerNameInputContainer = document.getElementById('playerNameInputContainer');
+            const playerNameInput = document.getElementById('playerNameInput');
+            const submitPlayerNameButton = document.getElementById('submitPlayerNameButton');
+            const gameContainer = document.getElementById('gameContainer');
+            const nameDisplay = document.getElementById('nameOfPlayerDisplay');
+            const moneyDisplay = document.getElementById('moneyOfPlayerDisplay');
+            const diamondsDisplay = document.getElementById('diamondsOfPlayerDisplay');
+            const sellJuiceBtn = document.getElementById('sellJuiceButton');
+            const sellPopsicleBtn = document.getElementById('sellPopsicleButton');
+            const buyJuiceMultiplierBtn = document.getElementById('buyJuiceMultiplierButton');
+            const buyJuiceSellerBtn = document.getElementById('buyJuiceSellerButton');
+            const unlockOrUpgradePopsicleBtn = document.getElementById('unlockOrUpgradePopsicleButton');
+            const resetGameBtn = document.getElementById('resetGameButton');
+            const popupContainer = document.getElementById('popupContainer');
+            
+            let currentGameSate = initialClientGameState;
+
+            function showPopup(message, type = 'info') { 
+                const popup = document.createElement('div');
+                popup.textContent = message;
+                let bgColor = 'bg-sky-500'; 
+                if (type === 'success') bgColor = 'bg-emerald-500';
+                else if (type === 'error') bgColor = 'bg-red-500';
+                popup.className = `${bgColor} text-white p-3 rounded-lg shadow-xl text-sm popup-enter`;
+                popupContainer.appendChild(popup);
+                void popup.offsetWidth; 
+                popup.classList.add('popup-enter-active');
+                setTimeout(() => {
+                    popup.classList.remove('popup-enter-active');
+                    popup.classList.add('popup-leave-active');
+                    setTimeout(() => popup.remove(), 300);
+                }, 3000); 
+            }
+
+            async function performAction(actionEndpoint, isReset = false) {
+                try {
+                    const response = await fetch(actionEndpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        currentGameSate = data.game_state;
+                        updateUI(currentGameSate);
+                        if (!actionEndpoint.includes('sell_') || isReset) { 
+                             showPopup(data.message || 'Ação bem-sucedida!', 'success');
+                        }
+                    } else {
+                        if(data.game_state) {
+                            currentGameSate = data.game_state;
+                            updateUI(currentGameSate);
+                        }
+                        showPopup(data.message || 'Ocorreu um erro na ação.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Erro ao realizar ação:', error);
+                    showPopup('Erro de comunicação com o servidor.', 'error');
+                }
+            }
+
+            function updateUI(gameState) {
+                nameDisplay.innerHTML = `Nome: <span class="text-sky-600">${gameState.playerName}</span>`;
+                moneyDisplay.textContent = `$ ${gameState.money.toFixed(2)}`;
+                diamondsDisplay.textContent = `Grana Suja: ${gameState.diamonds}`;
+                sellJuiceBtn.textContent = `Suco de Laranja $${gameState.juicePrice.toFixed(2)}`;
+                buyJuiceMultiplierBtn.textContent = `Caixa de Laranjas -$${gameState.juiceMultiplierCost.toFixed(2)}`;
+                buyJuiceMultiplierBtn.disabled = !gameState.canAffordJuiceMultiplier;
+                if (gameState.juiceSellerActive) {
+                    buyJuiceSellerBtn.style.display = 'none'; 
+                } else {
+                    buyJuiceSellerBtn.style.display = 'block';
+                    buyJuiceSellerBtn.textContent = `Contratar Vendedor -$${gameState.juiceSellerCost.toFixed(2)}`;
+                    buyJuiceSellerBtn.disabled = !gameState.canAffordJuiceSeller;
+                }
+                if (gameState.popsicleUnlocked) {
+                    sellPopsicleBtn.style.display = 'block';
+                    sellPopsicleBtn.textContent = `Picolé $${gameState.popsiclePrice.toFixed(2)}`;
+                    unlockOrUpgradePopsicleBtn.textContent = `+ Sabores de Picolé -$${gameState.popsicleMultiplierCost.toFixed(2)}`;
+                    unlockOrUpgradePopsicleBtn.disabled = !gameState.canAffordPopsicleMultiplier;
+                } else {
+                    sellPopsicleBtn.style.display = 'none';
+                    unlockOrUpgradePopsicleBtn.textContent = `Desbloquear Picolés -$${gameState.popsicleUnlockCost.toFixed(2)}`;
+                    unlockOrUpgradePopsicleBtn.disabled = !gameState.canAffordPopsicleUnlock;
+                }
+            }
+
+            function initializeGameDisplay() {
+                if (initialClientGameState.playerName && initialClientGameState.playerName !== "Jogador Anônimo") {
+                    playerNameInputContainer.style.display = 'none';
+                    gameContainer.style.display = 'block';
+                    updateUI(initialClientGameState);
+                } else {
+                    playerNameInputContainer.style.display = 'block';
+                    gameContainer.style.display = 'none';
+                }
+            }
+
+            submitPlayerNameButton.addEventListener('click', async () => {
+                const name = playerNameInput.value.trim();
+                if (!name || name.length < 2) {
+                    showPopup('Por favor, insira um nome válido (mínimo 2 caracteres).', 'error');
+                    return;
+                }
+                try {
+                    const response = await fetch('/set_player_name', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: name })
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        currentGameSate = data.game_state;
+                        playerNameInputContainer.style.display = 'none';
+                        gameContainer.style.display = 'block';
+                        updateUI(currentGameSate);
+                        showPopup(data.message || `Bem-vindo, ${name}!`, 'success');
+                    } else {
+                        showPopup(data.message || 'Erro ao definir nome.', 'error');
+                    }
+                } catch (error) {
+                    showPopup('Erro de comunicação ao definir nome.', 'error');
+                }
+            });
+
+            sellJuiceBtn.addEventListener('click', () => performAction('/action/sell_juice'));
+            sellPopsicleBtn.addEventListener('click', () => performAction('/action/sell_popsicle'));
+            buyJuiceMultiplierBtn.addEventListener('click', () => performAction('/action/buy_juice_multiplier'));
+            buyJuiceSellerBtn.addEventListener('click', () => performAction('/action/buy_juice_seller'));
+            unlockOrUpgradePopsicleBtn.addEventListener('click', () => performAction('/action/unlock_or_upgrade_popsicle'));
+            
+            resetGameBtn.addEventListener('click', () => {
+                if (window.confirm("Tem certeza que deseja reiniciar o jogo? Todo o progresso será perdido.")) {
+                     performAction('/reset_game', true);
+                }
+            });
+
+            setInterval(async () => {
+                if (gameContainer.style.display === 'block' && currentGameSate.juiceSellerActive) { 
+                    try {
+                        const response = await fetch('/action/sell_juice', { 
+                             method: 'POST',
+                             headers: { 'Content-Type': 'application/json' },
+                        });
+                        const data = await response.json();
+                        if (data.game_state) { 
+                           currentGameSate = data.game_state;
+                           updateUI(currentGameSate);
+                        }
+                    } catch (error) {
+                        // console.warn("Falha na atualização periódica da UI:", error);
+                    }
+                }
+            }, 3000); // JUICE_SELLER_INTERVAL_SECONDS * 1000 (3000ms)
+
+            initializeGameDisplay();
+        });
+    </script>
+</body>
+</html>
